@@ -18,14 +18,12 @@ class RMButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(backgroundColor: UIColor,title: String,imageName: String){
+    
+    
+    convenience init(backgroundColor: UIColor,title: String){
         self.init(frame: .zero)
         self.backgroundColor = backgroundColor
         self.setTitle(title, for: .normal)
-        if let image = UIImage(systemName: imageName)  {
-            self.setImage(image, for: .normal)
-        }
-        
     }
     
     

@@ -11,9 +11,13 @@ class RMLocationsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemPink
+        configureViewController()
       
     }
     
+    private func configureViewController(){
+        view.backgroundColor = .systemPink
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
 
 }

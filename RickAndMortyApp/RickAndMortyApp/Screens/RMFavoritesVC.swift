@@ -11,10 +11,14 @@ class RMFavoritesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemYellow
+        configureViewController()
 
     }
     
+    private func configureViewController(){
+        view.backgroundColor = .systemYellow
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
 
 
 
