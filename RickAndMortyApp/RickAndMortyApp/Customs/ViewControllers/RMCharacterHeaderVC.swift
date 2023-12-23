@@ -53,7 +53,7 @@ class RMCharacterHeaderVC: UIViewController {
         
         NSLayoutConstraint.activate([
             characterImage.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
-            characterImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            characterImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             characterImage.heightAnchor.constraint(equalToConstant: 220),
             characterImage.widthAnchor.constraint(equalToConstant: 220),
             
@@ -72,10 +72,10 @@ class RMCharacterHeaderVC: UIViewController {
             statusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             statusLabel.heightAnchor.constraint(equalToConstant: 27),
             
-            favoriteButton.topAnchor.constraint(equalTo: characterImage.bottomAnchor, constant: -50),
-            favoriteButton.trailingAnchor.constraint(equalTo: characterImage.trailingAnchor),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 50),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 50)
+            favoriteButton.topAnchor.constraint(equalTo: characterImage.bottomAnchor, constant: -55),
+            favoriteButton.trailingAnchor.constraint(equalTo: characterImage.trailingAnchor,constant: -5),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40)
         ])
         
     }
