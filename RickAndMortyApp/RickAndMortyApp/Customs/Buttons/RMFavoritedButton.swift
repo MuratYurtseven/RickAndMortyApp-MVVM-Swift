@@ -1,13 +1,13 @@
 //
-//  RMButton.swift
+//  RMFavoritedButton.swift
 //  RickAndMortyApp
 //
-//  Created by Murat on 20.12.2023.
+//  Created by Murat on 23.12.2023.
 //
 
 import UIKit
 
-class RMButton: UIButton {
+class RMFavoritedButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,19 +20,18 @@ class RMButton: UIButton {
     
     
     
-    convenience init(backgroundColor: UIColor,title: String){
+    convenience init(image:UIImage){
         self.init(frame: .zero)
-        self.backgroundColor = backgroundColor
-        self.setTitle(title, for: .normal)
-        
+        self.setImage(image, for: .normal)
     }
     
     
     private func configure(){
         setTitleColor(.white, for: .normal)
         layer.cornerRadius = 10
-        titleLabel?.textColor = .white
+        tintColor = .yellow
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         translatesAutoresizingMaskIntoConstraints = false
     }
+
 }
