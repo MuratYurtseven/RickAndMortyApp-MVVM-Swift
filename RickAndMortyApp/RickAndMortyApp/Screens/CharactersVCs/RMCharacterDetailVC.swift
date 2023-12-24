@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol RMCharacterDetailVCDelegate: class{
+    func didTapFavorited(for character:Character)
+    func didTapLocation(for character:Character)
+    func didTapOrigin(for character:Character)
+}
+
 class RMCharacterDetailVC: UIViewController {
     
     var gotCharacter : Character!
@@ -30,9 +36,18 @@ class RMCharacterDetailVC: UIViewController {
     }
     
     private func addViewsToView(){
-        add(childVC: RMCharacterHeaderVC(character: gotCharacter), to: headerView)
-        add(childVC: RMLocationVC(character: gotCharacter), to: locationView)
-        add(childVC: RMOriginVC(character: gotCharacter), to: originView)
+        
+        let characterHeaderVC = RMCharacterHeaderVC(character: gotCharacter)
+        characterHeaderVC.delegate = self
+        add(childVC: characterHeaderVC, to: headerView)
+        
+        let locationVC = RMLocationVC(character: gotCharacter)
+        locationVC.delegate = self
+        add(childVC:locationVC , to: locationView)
+        
+        let originVC = RMOriginVC(character: gotCharacter)
+        originVC.delegate = self
+        add(childVC: originVC, to: originView)
     }
     
     private func configureViewController(){
@@ -84,4 +99,28 @@ class RMCharacterDetailVC: UIViewController {
         childVC.didMove(toParent: self)
     }
 
+}
+
+extension RMCharacterDetailVC : RMCharacterDetailVCDelegate{
+    
+    func didTapFavorited(for character: Character) {
+        PersistanceManager.updateWith(character: character, actionType: .add) {[weak self] error in
+            guard let self = self else {return}
+            guard let error = error else {
+                self.presentRMAlertMessageOnMainThread(title: "Success!", message: "You have successfully favorited this user.")
+                return
+            }
+            self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
+        }
+    }
+    
+    func didTapLocation(for character: Character) {
+        print(character.location.url)
+    }
+    
+    func didTapOrigin(for character: Character) {
+        print(character.origin.url)
+    }
+    
+    
 }

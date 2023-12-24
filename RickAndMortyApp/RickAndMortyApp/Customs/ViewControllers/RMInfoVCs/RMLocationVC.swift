@@ -22,6 +22,10 @@ class RMLocationVC: RMItemInfoVC {
         actionButton.setTitle("Location", for: .normal)
         actionButton.backgroundColor = .systemGreen
     }
+    
+    override func actionButtonTapped() {
+        delegate.didTapLocation(for: character)
+    }
 
 
 }

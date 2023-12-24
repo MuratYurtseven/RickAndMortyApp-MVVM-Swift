@@ -33,7 +33,7 @@ class CharactersCell: UICollectionViewCell {
     private func configure(){
         addSubview(characterImage)
         addSubview(characterNameLabel)
-        
+    
         let padding : CGFloat = 8
         NSLayoutConstraint.activate([
             characterImage.topAnchor.constraint(equalTo: topAnchor, constant: padding),
@@ -48,4 +48,5 @@ class CharactersCell: UICollectionViewCell {
         ])
         
     }
+
 }

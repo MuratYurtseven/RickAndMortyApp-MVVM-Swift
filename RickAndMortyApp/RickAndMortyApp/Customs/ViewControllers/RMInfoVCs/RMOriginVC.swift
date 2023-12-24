@@ -21,5 +21,8 @@ class RMOriginVC: RMItemInfoVC {
         actionButton.backgroundColor = .systemBlue
     }
     
+    override func actionButtonTapped() {
+        delegate.didTapOrigin(for: character)
+    }
 
 }

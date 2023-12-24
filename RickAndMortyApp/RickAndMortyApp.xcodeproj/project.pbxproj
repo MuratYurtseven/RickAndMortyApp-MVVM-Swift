@@ -33,6 +33,8 @@
 		FB9C256F2B34B88600E4C9B1 /* RMContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9C256E2B34B88600E4C9B1 /* RMContainerView.swift */; };
 		FB9C25742B34BF2400E4C9B1 /* UViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9C25732B34BF2400E4C9B1 /* UViewController+Extensions.swift */; };
 		FB9C25842B34C62300E4C9B1 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9C25832B34C62300E4C9B1 /* NetworkManager.swift */; };
+		FBAB8A092B3876190034E50A /* PersistanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAB8A082B3876190034E50A /* PersistanceManager.swift */; };
+		FBAB8A0E2B3884C10034E50A /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAB8A0D2B3884C10034E50A /* FavoriteCell.swift */; };
 		FBBE23322B370A0F00EEE449 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBE23312B370A0F00EEE449 /* Location.swift */; };
 		FBBE23342B370E6300EEE449 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBE23332B370E6300EEE449 /* UIHelper.swift */; };
 		FBBE23372B371C9800EEE449 /* RMCharacterDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBE23362B371C9800EEE449 /* RMCharacterDetailVC.swift */; };
@@ -72,6 +74,8 @@
 		FB9C256E2B34B88600E4C9B1 /* RMContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMContainerView.swift; sourceTree = "<group>"; };
 		FB9C25732B34BF2400E4C9B1 /* UViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UViewController+Extensions.swift"; sourceTree = "<group>"; };
 		FB9C25832B34C62300E4C9B1 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		FBAB8A082B3876190034E50A /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
+		FBAB8A0D2B3884C10034E50A /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 		FBBE23312B370A0F00EEE449 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		FBBE23332B370E6300EEE449 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		FBBE23362B371C9800EEE449 /* RMCharacterDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailVC.swift; sourceTree = "<group>"; };
@@ -171,6 +175,7 @@
 		FB9C255E2B34B5FD00E4C9B1 /* Customs */ = {
 			isa = PBXGroup;
 			children = (
+				FBAB8A0C2B3884A90034E50A /* TableViewCells */,
 				FB72733D2B35FACF005E0D6A /* Images */,
 				FB7273392B35FA80005E0D6A /* CollectionViewCells */,
 				FB9C256D2B34B85B00E4C9B1 /* Views */,
@@ -266,8 +271,17 @@
 			isa = PBXGroup;
 			children = (
 				FB9C25832B34C62300E4C9B1 /* NetworkManager.swift */,
+				FBAB8A082B3876190034E50A /* PersistanceManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		FBAB8A0C2B3884A90034E50A /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				FBAB8A0D2B3884C10034E50A /* FavoriteCell.swift */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		FBBE23352B371C6200EEE449 /* CharactersVCs */ = {
@@ -349,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBAB8A092B3876190034E50A /* PersistanceManager.swift in Sources */,
 				FB88B11A2B33761C0082DE1D /* AppDelegate.swift in Sources */,
 				FB72733F2B35FB0C005E0D6A /* RMCharactersImageView.swift in Sources */,
 				FBBE23322B370A0F00EEE449 /* Location.swift in Sources */,
@@ -381,6 +396,7 @@
 				FB0161DE2B375D780062EFAC /* String+Extensions.swift in Sources */,
 				FBBE23432B37331B00EEE449 /* UImageView+Extensions.swift in Sources */,
 				FBBE23412B37288D00EEE449 /* RMFavoritedButton.swift in Sources */,
+				FBAB8A0E2B3884C10034E50A /* FavoriteCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

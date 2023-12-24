@@ -17,10 +17,11 @@ class RMCharacterHeaderVC: UIViewController {
     var favoriteButton = RMFavoritedButton(image: SFSymbols.star)
     
     var views : [UIView] = []
+    var isFavorited = false
+    
+    weak var delegate :RMCharacterDetailVCDelegate!
     
     var character : Character!
-    
-    var isFavorited = false
     
     init(character: Character) {
         super.init(nibName: nil, bundle: nil)
@@ -96,7 +97,10 @@ class RMCharacterHeaderVC: UIViewController {
         }
         favoriteButton.setImage(SFSymbols.fillStar, for: .normal)
         isFavorited = true
+        delegate.didTapFavorited(for: character)
     }
+    
+
         
 }
 

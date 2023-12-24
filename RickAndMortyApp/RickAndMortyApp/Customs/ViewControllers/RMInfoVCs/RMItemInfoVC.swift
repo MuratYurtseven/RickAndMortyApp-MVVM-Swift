@@ -13,6 +13,8 @@ class RMItemInfoVC: UIViewController {
     let nameLabel = RMSecondaryTitleLabel(fontSize: 18)
     let actionButton = RMButton()
     
+    weak var delegate : RMCharacterDetailVCDelegate!
+    
     var character : Character!
     
     init(character: Character) {
@@ -28,6 +30,7 @@ class RMItemInfoVC: UIViewController {
         super.viewDidLoad()
         configureBackgroundColor()
         layoutUI()
+        configureActionButton()
     }
     private func configureBackgroundColor(){
         view.layer.cornerRadius = 18
@@ -57,6 +60,14 @@ class RMItemInfoVC: UIViewController {
             actionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             actionButton.heightAnchor.constraint(equalToConstant: 30)
         ])
+    }
+    
+    private func configureActionButton(){
+        actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func actionButtonTapped(){
+        
     }
 
 }

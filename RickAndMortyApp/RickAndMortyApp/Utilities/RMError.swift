@@ -12,4 +12,6 @@ enum RMError : String,Error{
     case unableToComplete = "Unable to complete this page.Please try again."
     case invailedResponse = "Invalied response from the server.Please try again"
     case invailedData = "The data reveived from  the server was invailed.Please try again."
+    case unableToFavorited = "There was a error favoriting this user.Please try again."
+    case alreadyInFavorites = "You have already favoritied this user."
 }
