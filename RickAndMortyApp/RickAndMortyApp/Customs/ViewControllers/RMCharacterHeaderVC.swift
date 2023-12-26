@@ -38,6 +38,7 @@ class RMCharacterHeaderVC: UIViewController {
         addSubviews()
         layoutUI()
         configure()
+        controlFavoriteButton()
     }
     
     private func addSubviews(){
@@ -108,14 +109,32 @@ class RMCharacterHeaderVC: UIViewController {
         
     }
     
+    private func controlFavoriteButton(){
+        PersistanceManager.retrieveFavorites {[weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let characters):
+                if characters.contains(self.character) {
+                    favoriteButton.setImage(SFSymbols.fillStar, for: .normal)
+                    isFavorited = true
+                } else {
+                    favoriteButton.setImage(SFSymbols.star, for: .normal)
+                    isFavorited = false
+                }
+            case .failure(let error):
+                self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
+            }
+        }
+    }
+    
     @objc func favoriteTapped(){
-        if isFavorited != false {
+        if isFavorited {
             favoriteButton.setImage(SFSymbols.star, for: .normal)
             isFavorited = false
-            return
+        } else {
+            favoriteButton.setImage(SFSymbols.fillStar, for: .normal)
+            isFavorited = true
         }
-        favoriteButton.setImage(SFSymbols.fillStar, for: .normal)
-        isFavorited = true
         delegate.didTapFavorited(for: character)
     }
     

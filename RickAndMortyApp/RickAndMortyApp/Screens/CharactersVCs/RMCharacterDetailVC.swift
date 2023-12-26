@@ -106,6 +106,7 @@ class RMCharacterDetailVC: UIViewController {
         childVC.view.frame = containerView.bounds
         childVC.didMove(toParent: self)
     }
+    
 
 }
 
@@ -115,10 +116,16 @@ extension RMCharacterDetailVC : RMCharacterDetailVCDelegate{
         PersistanceManager.updateWith(character: character, actionType: .add) {[weak self] error in
             guard let self = self else {return}
             guard let error = error else {
-                self.presentRMAlertMessageOnMainThread(title: "Success!", message: "You have successfully favorited this user.")
+                self.presentRMAlertMessageOnMainThread(title: "Success!", message: "You have successfully favorited this character.")
                 return
             }
-            self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
+            PersistanceManager.updateWith(character: character, actionType: .remove) { error in
+                guard let error = error else {
+                    self.presentRMAlertMessageOnMainThread(title: "Success!", message: "You have successgully deleted this character.")
+                    return
+                }
+                self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
+            }
         }
     }
     
