@@ -23,6 +23,14 @@ class RMCharacterDetailVC: UIViewController {
     
     var views: [UIView] = []
     
+    init(gotCharacter:Character){
+        super.init(nibName: nil, bundle: nil)
+        self.gotCharacter = gotCharacter
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,11 +123,41 @@ extension RMCharacterDetailVC : RMCharacterDetailVCDelegate{
     }
     
     func didTapLocation(for character: Character) {
-        print(character.location.url)
+        NetworkManager.shared.getSingeleLocation(url: character.location.url) {[weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let location):
+                DispatchQueue.main.async {
+                    let destVC = RMLocationDetailVC(gotLocation: location)
+                    
+                    let navigationController = UINavigationController(rootViewController: destVC)
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true)
+                }
+
+            case .failure(let error):
+                self.presentRMAlertMessageOnMainThread(title: "Something went wrong.", message: error.rawValue)
+            }
+        }
     }
     
     func didTapOrigin(for character: Character) {
-        print(character.origin.url)
+        NetworkManager.shared.getSingeleLocation(url: character.origin.url) {[weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let location):
+                DispatchQueue.main.async {
+                    let destVC = RMLocationDetailVC(gotLocation: location)
+                    
+                    let navigationController = UINavigationController(rootViewController: destVC)
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true)
+                }
+
+            case .failure(let error):
+                self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
+            }
+        }
     }
     
     

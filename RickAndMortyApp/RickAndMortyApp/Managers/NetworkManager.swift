@@ -51,4 +51,113 @@ class NetworkManager {
         }
         task.resume()
     }
+    
+    func getLocations(page : Int,completed : @escaping(Result<LocationResponse,RMError>) -> Void){
+        let endPoint = baseUrl + "/location?page=\(page)"
+        
+        guard let url = URL(string: endPoint) else {
+            completed(.failure(.inavailedPage))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){ data,response,error in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse,response.statusCode == 200 else {
+                completed(.failure(.invailedResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completed(.failure(.invailedData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let location = try decoder.decode(LocationResponse.self, from: data)
+                completed(.success(location))
+            }
+            catch {
+                completed(.failure(.invailedData))
+            }
+            
+        }
+        task.resume()
+    }
+    
+    func singleCharacter(chracterUrl:String,completed: @escaping(Result<Character,RMError>) -> Void){
+        
+        guard let url = URL(string: chracterUrl) else {
+            completed(.failure(.inavailedPage))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){ data,response,error in
+            
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return}
+            
+            guard let response = response as? HTTPURLResponse ,response.statusCode == 200 else {
+                completed(.failure(.invailedResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completed(.failure(.invailedData))
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let character = try decoder.decode(Character.self, from: data)
+                completed(.success(character))
+            }
+            catch {
+                completed(.failure(.invailedData))
+            }
+        }
+        task.resume()
+    }
+    
+    func getSingeleLocation(url :String, completed: @escaping(Result<LocationResult,RMError>) -> Void){
+        
+        guard let url = URL(string: url) else {
+            completed(.failure(.inavailedPage))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){ data,response,error in
+            
+            if let  _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse,response.statusCode == 200 else {
+                completed(.failure(.invailedResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completed(.failure(.invailedData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let location = try decoder.decode(LocationResult.self, from: data)
+                completed(.success(location))
+            }
+            catch {
+                completed(.failure(.invailedData))
+            }
+            
+        }
+        task.resume()
+    }
+        
 }

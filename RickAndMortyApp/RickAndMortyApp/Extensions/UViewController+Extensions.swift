@@ -29,7 +29,7 @@ extension UIViewController {
         containerView.alpha = 0
         
         UIView.animate(withDuration: 0.45) {
-            containerView.alpha = 0.8}
+            containerView.alpha = 0.85}
         
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.color = .systemOrange

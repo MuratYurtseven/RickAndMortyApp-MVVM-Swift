@@ -76,8 +76,7 @@ extension RMFavoritesVC : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let favorite = favoritedCharacters[indexPath.row]
-        let destVC = RMCharacterDetailVC()
-        destVC.gotCharacter = favorite
+        let destVC = RMCharacterDetailVC(gotCharacter: favorite)
         
         let navigationController = UINavigationController(rootViewController: destVC)
         navigationController.modalPresentationStyle = .fullScreen

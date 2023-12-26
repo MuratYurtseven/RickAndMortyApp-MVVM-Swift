@@ -113,9 +113,8 @@ extension RMCharactersVC : UICollectionViewDelegate{
         
         let character = activityArray[indexPath.item]
         
-        let destinationVC = RMCharacterDetailVC()
-        destinationVC.gotCharacter = character
-        
+        let destinationVC = RMCharacterDetailVC(gotCharacter: character)
+
         let navigationController = UINavigationController(rootViewController: destinationVC)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)

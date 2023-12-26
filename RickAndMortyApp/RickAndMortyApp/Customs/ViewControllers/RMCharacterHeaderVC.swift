@@ -14,6 +14,7 @@ class RMCharacterHeaderVC: UIViewController {
     let speciesLabel = RMSecondaryTitleLabel(fontSize: 25)
     let genderLabel = RMSecondaryTitleLabel(fontSize: 25)
     let statusLabel = RMSecondaryTitleLabel(fontSize: 25)
+    let imageStatus = RMCharactersImageView(frame: .zero)
     var favoriteButton = RMFavoritedButton(image: SFSymbols.star)
     
     var views : [UIView] = []
@@ -40,7 +41,7 @@ class RMCharacterHeaderVC: UIViewController {
     }
     
     private func addSubviews(){
-        views = [characterImage,speciesLabel,genderLabel,statusLabel,favoriteButton]
+        views = [characterImage,speciesLabel,genderLabel,imageStatus,statusLabel,favoriteButton]
         
         for viewItem in views{
             view.addSubview(viewItem)
@@ -68,8 +69,13 @@ class RMCharacterHeaderVC: UIViewController {
             genderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             genderLabel.heightAnchor.constraint(equalToConstant: 27),
             
-            statusLabel.centerYAnchor.constraint(equalTo: characterImage.centerYAnchor, constant: 45),
-            statusLabel.leadingAnchor.constraint(equalTo: characterImage.trailingAnchor, constant: textImagePadding),
+            imageStatus.topAnchor.constraint(equalTo: characterImage.centerYAnchor, constant: 45),
+            imageStatus.leadingAnchor.constraint(equalTo: characterImage.trailingAnchor, constant: textImagePadding),
+            imageStatus.heightAnchor.constraint(equalToConstant: 15),
+            imageStatus.widthAnchor.constraint(equalToConstant: 15),
+            
+            statusLabel.centerYAnchor.constraint(equalTo: imageStatus.centerYAnchor, constant: 0),
+            statusLabel.leadingAnchor.constraint(equalTo: imageStatus.trailingAnchor, constant: textImagePadding),
             statusLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             statusLabel.heightAnchor.constraint(equalToConstant: 27),
             
@@ -87,6 +93,19 @@ class RMCharacterHeaderVC: UIViewController {
         genderLabel.text = character.gender
         statusLabel.text = character.status
         favoriteButton.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
+        
+        switch character.status{
+            
+        case "Alive":
+            imageStatus.image = SFSymbols.circleGreen
+        case "Dead":
+            imageStatus.image = SFSymbols.circleRed
+        case "unknown":
+            imageStatus.image = SFSymbols.circleGray
+        default:
+            return
+        }
+        
     }
     
     @objc func favoriteTapped(){
