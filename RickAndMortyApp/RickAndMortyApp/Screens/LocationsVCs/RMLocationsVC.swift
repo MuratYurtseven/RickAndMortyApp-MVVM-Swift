@@ -8,7 +8,8 @@
 import UIKit
 
 class RMLocationsVC: UIViewController {
-
+    
+    var viewModel = RMLocationsViewModel()
     let tableView  = UITableView()
     var locations : [LocationResult] = []
     var page = 1
@@ -32,25 +33,13 @@ class RMLocationsVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    private func configureTableView(){
-        view.addSubview(tableView)
-        tableView.frame = view.bounds
-        tableView.rowHeight = 45
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(LocationCell.self, forCellReuseIdentifier: LocationCell.reuseId)
-        
-    }
-    
-    private func getLocations(page:Int){
-        NetworkManager.shared.getLocations(page: page) {[weak self] result in
+    private func getLocations(page: Int){
+        viewModel.getLocations(page: page) {[weak self] result in
             guard let self = self else {return}
+            
             switch result {
-            case .success(let lResponse):
-                if lResponse.results.count < 20 {
-                    self.hasMoreLocations = false
-                }
-                self.locations.append(contentsOf: lResponse.results)
+            case .success(let locationResults):
+                self.locations = locationResults
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                     self.view.bringSubviewToFront(self.tableView)
@@ -60,21 +49,29 @@ class RMLocationsVC: UIViewController {
             }
         }
     }
+    
+    private func configureTableView(){
+        view.addSubview(tableView)
+        tableView.frame = view.bounds
+        tableView.rowHeight = 45
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(LocationCell.self, forCellReuseIdentifier: LocationCell.reuseId)
+        
+    }
+
 
 }
 
 extension RMLocationsVC : UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        locations.count
+        viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LocationCell.reuseId) as! LocationCell
-        let locaiton = locations[indexPath.row]
-        
-        cell.set(location: locaiton)
-        return cell
+
+        return viewModel.cellForRowAt(in: tableView, with: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -87,12 +84,8 @@ extension RMLocationsVC : UITableViewDelegate,UITableViewDataSource {
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let height = scrollView.frame.height
-        
-        if offsetY > contentHeight - height{
-            guard hasMoreLocations else { return }
+        if viewModel.scrollViewDidEndDragging(in: scrollView){
+            guard viewModel.hasMoreFollowers else { return }
             page += 1
             getLocations(page: page)
         }

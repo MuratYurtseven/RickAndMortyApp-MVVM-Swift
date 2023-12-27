@@ -14,6 +14,7 @@ class RMLocationSecondVC: UIViewController {
     init(chracters: [Character]) {
         super.init(nibName: nil, bundle: nil)
         self.chracters.append(contentsOf: chracters)
+
     }
     
     required init?(coder: NSCoder) {
@@ -22,12 +23,19 @@ class RMLocationSecondVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
+    
+
+    
+    private func setup(){
         configureBackgroudColor()
         configureCollectionView()
-        for item in chracters{
-            print(item)
-            print("******")
-        }
     }
     
     private func configureBackgroudColor(){
@@ -51,6 +59,7 @@ class RMLocationSecondVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CharactersCell.self, forCellWithReuseIdentifier: CharactersCell.resuseId)
+
     }
     
 

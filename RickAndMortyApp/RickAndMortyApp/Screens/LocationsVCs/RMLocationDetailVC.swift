@@ -50,6 +50,7 @@ class RMLocationDetailVC: UIViewController {
         
         let LocationCollectionVC = RMLocationSecondVC(chracters: characterList)
         self.add(childVC: LocationCollectionVC, to: self.collectionVC)
+        
     }
     
     private func layoutUI(){

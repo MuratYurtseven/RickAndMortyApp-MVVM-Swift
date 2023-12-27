@@ -10,31 +10,48 @@ import UIKit
 
 
 class RMCharactersVC: UIViewController {
-    
-    enum Section {
-        case main
-    }
-    let CharacterViewModel = RMCharactersViewModel()
+
     var collectionView : UICollectionView!
-    var dataSource : UICollectionViewDiffableDataSource<Section,Character>!
+    var viewModel = RMCharacterModelView()
     var charactersList: [Character] = []
     var filteredCharacterList : [Character] = []
     var page = 1
-    var hasMoreFollowers = true
     var isSearching = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewController()
-        configureSearchController()
-        getCharacters(page: page)
-        configureCollectionView()
-        configureDataSource()
+        setup()
+
+        
     }
     
+    private func setup(){
+        
+        configureViewController()
+        configureSearchController()
+        getData(page: page)
+        configureCollectionView()
+        viewModel.configureDataSource(in: collectionView)
+    }
+    
+
     private func configureViewController(){
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    private func getData(page:Int){
+        showLoadingView()
+        viewModel.getCharactes(page: page) {[weak self] result in
+            guard let self = self else {return}
+            self.dismissLoading()
+            switch result {
+            case .success(let characters):
+                self.charactersList = characters
+            case .failure(let error):
+                self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
+            }
+        }
     }
     
     private func configureCollectionView(){
@@ -54,58 +71,20 @@ class RMCharactersVC: UIViewController {
         navigationItem.searchController = searchController
     }
 
-    
-    func getCharacters(page:Int){
-        showLoadingView()
-        NetworkManager.shared.getCharacters(page: page) {[weak self] result in
-            guard let self = self else {return}
-            self.dismissLoading()
-            switch result {
-            case .success(let character):
-                if character.results.count < 20{
-                    self.hasMoreFollowers = false
-                }
-                self.charactersList.append(contentsOf:character.results)
-                self.updateData(on: charactersList)
-            case .failure(let error):
-                self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
-            }
-        }
-    }
-    
-    
-    
-    func configureDataSource(){
-        dataSource = UICollectionViewDiffableDataSource<Section,Character>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, character)-> UICollectionViewCell? in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharactersCell.resuseId, for: indexPath) as! CharactersCell
-            cell.set(character: character)
-            return cell
-        })
-    }
-    
-    func updateData(on characters : [Character]){
-        var snapshot = NSDiffableDataSourceSnapshot<Section,Character>()
-        
-        snapshot.appendSections([.main])
-        snapshot.appendItems(characters)
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot,animatingDifferences: true)
-        }
-        
-    }
 }
 
 extension RMCharactersVC : UICollectionViewDelegate{
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let height = scrollView.frame.size.height
-        if offsetY > contentHeight - height {
-            guard hasMoreFollowers else {return}
+
+        if viewModel.scrollViewDidEndDragging(scrollView: scrollView){
+            guard viewModel.hasMoreFollowers else {return}
             page += 1
-            getCharacters(page: page)
+            getData(page: page)
+
         }
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -127,13 +106,13 @@ extension RMCharactersVC : UISearchResultsUpdating,UISearchBarDelegate{
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let filter = searchController.searchBar.text, !filter.isEmpty else {
-            updateData(on: charactersList)
+            viewModel.updateData(on: charactersList)
             isSearching = false
             return
         }
         isSearching = true
         filteredCharacterList = charactersList.filter({$0.name.lowercased().contains(filter.lowercased())})
-        updateData(on: filteredCharacterList)
+        viewModel.updateData(on: filteredCharacterList)
     }
     
 }

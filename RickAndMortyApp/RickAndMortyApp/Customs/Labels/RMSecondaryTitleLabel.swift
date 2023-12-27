@@ -26,7 +26,7 @@ class RMSecondaryTitleLabel: UILabel {
     private func configure(){
         textColor = .secondaryLabel
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.9
+        minimumScaleFactor = 0.7
         lineBreakMode = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
     }
