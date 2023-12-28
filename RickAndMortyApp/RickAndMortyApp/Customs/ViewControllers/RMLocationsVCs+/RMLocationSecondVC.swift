@@ -25,12 +25,6 @@ class RMLocationSecondVC: UIViewController {
         super.viewDidLoad()
         setup()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        collectionView.reloadData()
-    }
-    
 
     
     private func setup(){
@@ -49,7 +43,6 @@ class RMLocationSecondVC: UIViewController {
         collectionView = UICollectionView(frame: .zero,collectionViewLayout: UIHelper.createOneColumnFlowLayout(in: self.view))
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -59,7 +52,6 @@ class RMLocationSecondVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CharactersCell.self, forCellWithReuseIdentifier: CharactersCell.resuseId)
-
     }
     
 
@@ -85,7 +77,5 @@ extension RMLocationSecondVC : UICollectionViewDelegate,UICollectionViewDataSour
         let navigationController = UINavigationController(rootViewController: destVC)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
-        
     }
-    
 }

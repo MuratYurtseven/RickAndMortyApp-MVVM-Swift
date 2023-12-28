@@ -99,9 +99,7 @@ extension RMCharactersVC : UICollectionViewDelegate{
         present(navigationController, animated: true)
         
     }
-    
 }
-
 extension RMCharactersVC : UISearchResultsUpdating,UISearchBarDelegate{
     
     func updateSearchResults(for searchController: UISearchController) {

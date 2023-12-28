@@ -9,6 +9,7 @@ import UIKit
 
 class RMLocationDetailVC: UIViewController {
     
+    var viewModel = RMLocationDetailViewModel()
     var gotLocation : LocationResult!
     let headerVC = UIView()
     let collectionVC = UIView()
@@ -29,13 +30,7 @@ class RMLocationDetailVC: UIViewController {
         addChractersToList()
 
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        addViewToMainView()
-    }
-    
-    
-    
+
     private func configureViewController(){
         let backButton = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(dismissVC))
         navigationItem.leftBarButtonItem = backButton
@@ -44,8 +39,8 @@ class RMLocationDetailVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func addViewToMainView(){
-        let LocatioHeaderVC = RMLocationHeaderVC(location: gotLocation)
+    func addViewToMainView(with location :LocationResult, charcterList:[Character]){
+        let LocatioHeaderVC = RMLocationHeaderVC(location: location)
         self.add(childVC: LocatioHeaderVC, to: self.headerVC)
         
         let LocationCollectionVC = RMLocationSecondVC(chracters: characterList)
@@ -97,15 +92,18 @@ class RMLocationDetailVC: UIViewController {
                 getCharacter(characterUrl: gotLocation.residents[characterUrlIndeks])
             }
         }
+        DispatchQueue.main.async {
+            self.addViewToMainView(with: self.gotLocation, charcterList: self.characterList)
+        }
+        
     }
     
     private func getCharacter(characterUrl :String){
-        NetworkManager.shared.singleCharacter(chracterUrl: characterUrl) { [weak self] result in
+        viewModel.getCharacter(characterUrl: characterUrl) {[weak self] result in
             guard let self = self else {return}
-            
             switch result {
-            case .success(let character):
-                self.characterList.append(character)
+            case .success(let characterResult):
+                self.characterList.append(characterResult)
             case .failure(let error):
                 self.presentRMAlertMessageOnMainThread(title: "Something went wrong", message: error.rawValue)
             }

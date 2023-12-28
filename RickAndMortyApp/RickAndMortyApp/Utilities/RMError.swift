@@ -14,4 +14,5 @@ enum RMError : String,Error{
     case invailedData = "The data reveived from  the server was invailed.Please try again."
     case unableToFavorited = "There was a error favoriting this user.Please try again."
     case alreadyInFavorites = "You have already favoritied this user."
+    case emptyCharactersList = "Please favorited some characters😀."
 }
